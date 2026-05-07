@@ -1,0 +1,51 @@
+# ======================
+# Backend - Spring Boot
+# ======================
+
+target/
+!.mvn/wrapper/maven-wrapper.jar
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### VS Code ###
+.vscode/
+
+### Logs ###
+*.log
+
+### OS ###
+.DS_Store
+Thumbs.db
+
+# ======================
+# Frontend - React
+# ======================
+
+frontend/node_modules/
+frontend/dist/
+frontend/build/
+
+# ======================
+# Env files
+# ======================
+
+.env
+
+# ======================
+# Misc
+# ======================
+
+coverage/
