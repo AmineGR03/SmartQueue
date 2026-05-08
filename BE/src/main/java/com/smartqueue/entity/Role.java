@@ -1,5 +1,6 @@
 package com.smartqueue.entity;
 import com.smartqueue.entity.enums.RoleName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import java.util.List;
@@ -22,6 +23,7 @@ public class Role {
     private RoleName name;
 
     @OneToMany(mappedBy = "role")
+    @JsonIgnore
     private List<User> users;
 
 }

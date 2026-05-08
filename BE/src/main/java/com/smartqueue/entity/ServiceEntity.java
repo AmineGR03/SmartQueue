@@ -2,8 +2,8 @@ package com.smartqueue.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Data
 @Entity
@@ -30,8 +30,10 @@ public class ServiceEntity {
     private Boolean active = true;
 
     @OneToMany(mappedBy = "service")
+    @JsonIgnore
     private List<Ticket> tickets;
 
     @OneToMany(mappedBy = "service")
+    @JsonIgnore
     private List<Appointment> appointments;
 }

@@ -1,230 +1,82 @@
-# 📌 SmartQueue
+# SmartQueue
 
-## 🧠 Description du projet
-
-SmartQueue est une application web de gestion intelligente des files d’attente et des rendez-vous pour les administrations.
-
-Elle permet de :
-
-* gérer les tickets de file d’attente en temps réel,
-* organiser les rendez-vous des usagers,
-* gérer les services administratifs,
-* assigner des agents aux tickets,
-* notifier les utilisateurs,
-* centraliser et automatiser le flux des usagers.
-
-Projet académique (PFA) basé sur :
-
-* Backend : Spring Boot
-* Frontend : React
-* Base de données : MySQL
-* Sécurité : Spring Security + JWT
+**SmartQueue** is a web application for managing waiting queues and appointments in administrative settings. It pairs a **Spring Boot** REST API with a **React** SPA, secured with **JWT** and backed by **MySQL**.
 
 ---
 
-## ⚙️ Architecture du projet
+## Documentation
+
+| Document | Purpose |
+|----------|---------|
+| **[setup.md](setup.md)** | Prerequisites, environment variables, database, and step-by-step run instructions for backend and frontend. |
+| **[explain.md](explain.md)** | In-depth technical guide (English): technologies, patterns (DTOs, layers, security), and a walkthrough of **every major folder and source file** in the repository. |
+| **[explain.fr.md](explain.fr.md)** | Même guide, **version française** — glossaire, flux, index des fichiers source. |
+
+---
+
+## What it does
+
+* Queue tickets in real time (with WebSocket/STOMP updates).
+* Book and cancel appointments.
+* Manage administrative **services** (service types / counters).
+* Role-based access: **USER**, **AGENT**, **ADMIN**.
+* JWT authentication; optional WebSocket subscription to `/topic/tickets`.
+
+---
+
+## Tech stack (summary)
+
+| Layer | Technology |
+|--------|------------|
+| Backend | Java **17**, **Spring Boot 4.x**, Spring Web MVC, Spring Data JPA, Spring Security, WebSocket/STOMP |
+| Frontend | **React** (Create React App), **React Router** v6, **Axios**, **@stomp/stompjs** |
+| Database | **MySQL** |
+| Security | **JWT** (JJWT), **BCrypt**, role-based HTTP authorization |
+| Build | **Maven** (backend), **npm** (frontend) |
+
+---
+
+## Repository layout
 
 ```
 SmartQueue/
-│
-├── BE/ (Backend Spring Boot)
-│   ├── controller/
-│   ├── service/
-│   ├── service/impl/
-│   ├── repository/
-│   ├── entity/
-│   ├── security/
-│   ├── config/
-│   └── dto/
-│
-├── FE/ (Frontend React)
-│   ├── src/
-│   ├── components/
-│   ├── pages/
-│   └── services/
-│
-└── README.md
+├── BE/                 # Spring Boot backend (Maven)
+├── FE/                 # React frontend (npm)
+├── README.md           # This file
+├── setup.md            # Installation & run guide
+├── explain.md          # Full technical deep-dive (EN)
+├── explain.fr.md       # Same (FR)
 ```
 
 ---
 
-## 🧱 Backend (Spring Boot)
+## Quick start
 
-### ✔️ Fonctionnalités implémentées
+1. Create MySQL database `smartqueue` and configure `BE/src/main/resources/application.properties`.
+2. Start the API: `cd BE` → `mvnw.cmd spring-boot:run` (Windows) or `./mvnw spring-boot:run` (Unix).
+3. Start the UI: `cd FE` → `npm install` → `npm start` → [http://localhost:3000](http://localhost:3000).
 
-* Gestion des utilisateurs
-* Authentification JWT (login/register)
-* Gestion des rôles (USER / ADMIN / AGENT)
-* Gestion des tickets
-* Gestion des services
-* Gestion des rendez-vous
-* Gestion des notifications
-* Architecture en couches propre
+**Details:** see **[setup.md](setup.md)**.
 
 ---
 
-## 🔐 Sécurité
+## API & security (high level)
 
-* Spring Security configuré
-* Authentification via JWT
-* BCrypt password encoder
-* Endpoints protégés
+* **Public:** `POST /api/auth/register`, `POST /api/auth/login`, WebSocket handshake `/ws-queue/**`.
+* **Authenticated:** Most `/api/**` routes (Bearer JWT).
+* **AGENT / ADMIN:** `PUT /api/tickets/call-next`, `PUT /api/tickets/complete/**`.
+* **ADMIN:** `/api/admin/**`.
 
----
-
-## 🎫 Modules Backend
-
-### Users
-
-* CRUD utilisateurs
-* association avec rôles
-
-### Tickets
-
-* création ticket
-* appel prochain ticket
-* clôture ticket
-* suivi statut
-
-### Services
-
-* gestion des services administratifs
-
-### Appointments
-
-* prise de rendez-vous
-* annulation
-
-### Notifications
-
-* notifications utilisateurs
+Full endpoint list and behaviour: **[explain.md](explain.md)** (or **[explain.fr.md](explain.fr.md)**) § REST API and § Security.
 
 ---
 
-## 🧪 API principales
+## Author
 
-### Auth
-
-```
-POST /api/auth/register
-POST /api/auth/login
-```
-
-### Tickets
-
-```
-POST /api/tickets
-GET /api/tickets
-PUT /api/tickets/call-next
-PUT /api/tickets/complete/{id}
-```
-
-### Users
-
-```
-GET /api/users
-GET /api/users/{id}
-DELETE /api/users/{id}
-```
+Academic project (PFA) — Amine Gourari.
 
 ---
 
-## 🗄️ Base de données
+## Note
 
-* MySQL
-* Hibernate ORM
-* Génération automatique des tables (JPA)
-
-### Configuration
-
-```properties
-spring.datasource.url=jdbc:mysql://localhost:3306/smartqueue
-spring.datasource.username=root
-spring.datasource.password=YOUR_PASSWORD
-
-spring.jpa.hibernate.ddl-auto=update
-spring.jpa.show-sql=true
-```
-
----
-
-## 🚀 Installation & exécution
-
-### 1. Cloner le projet
-
-```
-git clone https://github.com/AmineGR03/SmartQueue.git
-```
-
-### 2. Backend
-
-```
-cd BE
-./mvnw spring-boot:run
-```
-
-### 3. Frontend
-
-```
-cd FE
-npm install
-npm start
-```
-
----
-
-## 📌 Tâches réalisées
-
-* [x] Setup Spring Boot
-* [x] Entities JPA
-* [x] Relations DB
-* [x] Repositories
-* [x] JWT Authentication
-* [x] Auth system
-* [x] Ticket system
-* [x] Services & Appointments
-* [x] Controllers & Services
-
----
-
-## 🧭 Tâches restantes
-
-* [ ] Role-based access control
-* [ ] React frontend integration
-* [ ] Admin dashboard
-* [ ] Agent dashboard
-* [ ] WebSocket real-time queue
-* [ ] UI/UX improvements
-* [ ] Tests unitaires
-
----
-
-## 🔄 Historique des versions
-
-### v1.0
-
-* Initial backend setup
-
-### v1.1
-
-* Entities + DB configuration
-
-### v1.2
-
-* JWT authentication
-
-### v1.3
-
-* Business logic (tickets, services, appointments)
-
----
-
-## 👨‍💻 Auteur
-
-Projet PFA réalisé par Amine Gourari
-
----
-
-## ⚠️ Note
-
-Ce README doit être mis à jour à chaque évolution du projet.
+Keep **README.md**, **setup.md**, **explain.md**, and **explain.fr.md** updated when the codebase changes.

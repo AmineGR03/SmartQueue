@@ -1,5 +1,6 @@
 package com.smartqueue.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.smartqueue.entity.enums.NotificationType;
 import jakarta.persistence.*;
 import lombok.*;
@@ -34,5 +35,6 @@ public class Notification {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private User user;
 }

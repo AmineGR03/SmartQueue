@@ -75,4 +75,10 @@ public class AuthServiceImpl implements AuthService {
 
         return new AuthResponse(token);
     }
+
+    @Override
+    public User getProfile(String email) {
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+    }
 }
