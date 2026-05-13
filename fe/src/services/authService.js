@@ -14,3 +14,9 @@ export async function getMe() {
   const { data } = await api.get('/api/auth/me');
   return data;
 }
+
+export async function refreshToken() {
+  const { data } = await api.post('/api/auth/refresh', {});
+  return data;
+}
+

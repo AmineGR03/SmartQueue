@@ -88,6 +88,6 @@ public class TicketServiceImpl implements TicketService {
         payload.put("number", ticket.getNumber());
         payload.put("status", ticket.getStatus() != null ? ticket.getStatus().name() : null);
         payload.put("serviceId", ticket.getService() != null ? ticket.getService().getId() : null);
-        messagingTemplate.convertAndSend(WebSocketConfig.TICKET_TOPIC, payload);
+        messagingTemplate.convertAndSend(WebSocketConfig.TICKET_TOPIC, (Object) payload);
     }
 }

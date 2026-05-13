@@ -13,6 +13,7 @@ import ServicesPage from './pages/ServicesPage';
 import AppointmentsPage from './pages/AppointmentsPage';
 import NotificationsPage from './pages/NotificationsPage';
 import AdminPage from './pages/AdminPage';
+import UsersPage from './pages/UsersPage';
 
 export default function App() {
   return (
@@ -79,6 +80,14 @@ export default function App() {
                   <AdminPage />
                 </ProtectedRoute>
               }
+            <Route
+              path="/users"
+              element={
+                <ProtectedRoute roles={['ADMIN']}>
+                  <UsersPage />
+                </ProtectedRoute>
+              }
+            />
             />
 
             <Route path="*" element={<Navigate to="/" replace />} />
