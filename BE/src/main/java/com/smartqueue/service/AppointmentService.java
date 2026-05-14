@@ -1,14 +1,14 @@
 package com.smartqueue.service;
 
-import com.smartqueue.entity.Appointment;
+import com.smartqueue.dto.AppointmentDTO;
 
 import java.util.List;
 
 public interface AppointmentService {
 
-    Appointment create(Appointment appointment);
+    AppointmentDTO create(AppointmentDTO dto);
 
-    List<Appointment> getAll();
+    List<AppointmentDTO> getAll();
 
     void cancel(Long id);
 }

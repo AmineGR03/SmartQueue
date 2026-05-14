@@ -34,6 +34,13 @@ public class SecurityConfig {
                                 "/api/auth/login"
                         ).permitAll()
 
+                        .requestMatchers(
+                                "/swagger-ui.html",
+                                "/swagger-ui/**",
+                                "/v3/api-docs",
+                                "/v3/api-docs/**"
+                        ).permitAll()
+
                         .requestMatchers("/ws-queue/**").permitAll()
 
                         .requestMatchers("/api/admin/**")

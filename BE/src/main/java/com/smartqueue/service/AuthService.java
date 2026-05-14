@@ -1,9 +1,9 @@
 package com.smartqueue.service;
 
+import com.smartqueue.dto.UserDTO;
+import com.smartqueue.dto.auth.AuthResponse;
 import com.smartqueue.dto.auth.LoginRequest;
 import com.smartqueue.dto.auth.RegisterRequest;
-import com.smartqueue.dto.auth.AuthResponse;
-import com.smartqueue.entity.User;
 
 public interface AuthService {
 
@@ -11,5 +11,5 @@ public interface AuthService {
 
     AuthResponse login(LoginRequest request);
 
-    User getProfile(String email);
+    UserDTO getProfile(String email);
 }

@@ -1,12 +1,13 @@
 package com.smartqueue.service;
 
-import com.smartqueue.entity.Notification;
+import com.smartqueue.dto.NotificationCreateDTO;
+import com.smartqueue.dto.NotificationDTO;
 
 import java.util.List;
 
 public interface NotificationService {
 
-    List<Notification> getUserNotifications(Long userId);
+    List<NotificationDTO> getUserNotifications(Long userId);
 
-    Notification create(Notification notification);
+    NotificationDTO create(NotificationCreateDTO dto);
 }

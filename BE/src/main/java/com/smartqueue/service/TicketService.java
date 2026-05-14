@@ -1,16 +1,16 @@
 package com.smartqueue.service;
 
-import com.smartqueue.entity.Ticket;
+import com.smartqueue.dto.TicketResponseDTO;
 
 import java.util.List;
 
 public interface TicketService {
 
-    Ticket createTicket(Long userId, Long serviceId);
+    TicketResponseDTO createTicket(Long userId, Long serviceId);
 
-    List<Ticket> getAllTickets();
+    List<TicketResponseDTO> getAllTickets();
 
-    Ticket callNextTicket();
+    TicketResponseDTO callNextTicket();
 
-    Ticket completeTicket(Long ticketId);
+    TicketResponseDTO completeTicket(Long ticketId);
 }

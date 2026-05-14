@@ -1,7 +1,10 @@
 package com.smartqueue.controller;
 
-import com.smartqueue.entity.Ticket;
+import com.smartqueue.dto.TicketRequestDTO;
+import com.smartqueue.dto.TicketResponseDTO;
+import com.smartqueue.exception.BadRequestException;
 import com.smartqueue.service.TicketService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,27 +19,42 @@ public class TicketController {
     private final TicketService ticketService;
 
     @PostMapping
-    public ResponseEntity<Ticket> create(
-            @RequestParam Long userId,
-            @RequestParam Long serviceId) {
+    public ResponseEntity<TicketResponseDTO> create(
+            @RequestBody(required = false) @Valid TicketRequestDTO body,
+            @RequestParam(required = false) Long userId,
+            @RequestParam(required = false) Long serviceId) {
+
+        Long uId = userId;
+        Long sId = serviceId;
+        if (body != null) {
+            if (body.getUserId() != null) {
+                uId = body.getUserId();
+            }
+            if (body.getServiceId() != null) {
+                sId = body.getServiceId();
+            }
+        }
+        if (uId == null || sId == null) {
+            throw new BadRequestException("userId and serviceId are required (query parameters or JSON body)");
+        }
 
         return ResponseEntity.ok(
-                ticketService.createTicket(userId, serviceId)
+                ticketService.createTicket(uId, sId)
         );
     }
 
     @GetMapping
-    public ResponseEntity<List<Ticket>> getAll() {
+    public ResponseEntity<List<TicketResponseDTO>> getAll() {
         return ResponseEntity.ok(ticketService.getAllTickets());
     }
 
     @PutMapping("/call-next")
-    public ResponseEntity<Ticket> callNext() {
+    public ResponseEntity<TicketResponseDTO> callNext() {
         return ResponseEntity.ok(ticketService.callNextTicket());
     }
 
     @PutMapping("/complete/{id}")
-    public ResponseEntity<Ticket> complete(@PathVariable Long id) {
+    public ResponseEntity<TicketResponseDTO> complete(@PathVariable Long id) {
         return ResponseEntity.ok(ticketService.completeTicket(id));
     }
 }

@@ -1,5 +1,6 @@
 package com.smartqueue.service.impl;
 
+import com.smartqueue.dto.UserDTO;
 import com.smartqueue.dto.auth.*;
 import com.smartqueue.entity.*;
 import com.smartqueue.entity.enums.RoleName;
@@ -11,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -77,8 +79,10 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public User getProfile(String email) {
-        return userRepository.findByEmail(email)
+    @Transactional(readOnly = true)
+    public UserDTO getProfile(String email) {
+        User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("User not found"));
+        return UserDTO.fromEntity(user);
     }
 }

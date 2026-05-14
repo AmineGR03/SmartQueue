@@ -1,7 +1,9 @@
 package com.smartqueue.controller;
 
-import com.smartqueue.entity.Notification;
+import com.smartqueue.dto.NotificationCreateDTO;
+import com.smartqueue.dto.NotificationDTO;
 import com.smartqueue.service.NotificationService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,12 +17,12 @@ public class NotificationController {
     private final NotificationService service;
 
     @GetMapping("/{userId}")
-    public List<Notification> getUserNotifications(@PathVariable Long userId) {
+    public List<NotificationDTO> getUserNotifications(@PathVariable Long userId) {
         return service.getUserNotifications(userId);
     }
 
     @PostMapping
-    public Notification create(@RequestBody Notification n) {
-        return service.create(n);
+    public NotificationDTO create(@RequestBody @Valid NotificationCreateDTO dto) {
+        return service.create(dto);
     }
 }

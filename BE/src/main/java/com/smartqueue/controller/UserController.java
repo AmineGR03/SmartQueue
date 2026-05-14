@@ -1,6 +1,6 @@
 package com.smartqueue.controller;
 
-import com.smartqueue.entity.User;
+import com.smartqueue.dto.UserDTO;
 import com.smartqueue.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -15,12 +15,12 @@ public class UserController {
     private final UserService service;
 
     @GetMapping
-    public List<User> getAll() {
+    public List<UserDTO> getAll() {
         return service.getAllUsers();
     }
 
     @GetMapping("/{id}")
-    public User getById(@PathVariable Long id) {
+    public UserDTO getById(@PathVariable Long id) {
         return service.getUserById(id);
     }
 

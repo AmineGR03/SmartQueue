@@ -1,16 +1,16 @@
 package com.smartqueue.service;
 
-import com.smartqueue.entity.ServiceEntity;
+import com.smartqueue.dto.ServiceDTO;
 
 import java.util.List;
 
 public interface ServiceEntityService {
 
-    ServiceEntity create(ServiceEntity service);
+    ServiceDTO create(ServiceDTO service);
 
-    List<ServiceEntity> getAll();
+    List<ServiceDTO> getAll();
 
-    ServiceEntity getById(Long id);
+    ServiceDTO getById(Long id);
 
     void delete(Long id);
 }

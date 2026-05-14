@@ -1,7 +1,8 @@
 package com.smartqueue.controller;
 
-import com.smartqueue.entity.ServiceEntity;
+import com.smartqueue.dto.ServiceDTO;
 import com.smartqueue.service.ServiceEntityService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,17 +16,17 @@ public class ServiceEntityController {
     private final ServiceEntityService service;
 
     @PostMapping
-    public ServiceEntity create(@RequestBody ServiceEntity s) {
-        return service.create(s);
+    public ServiceDTO create(@RequestBody @Valid ServiceDTO body) {
+        return service.create(body);
     }
 
     @GetMapping
-    public List<ServiceEntity> getAll() {
+    public List<ServiceDTO> getAll() {
         return service.getAll();
     }
 
     @GetMapping("/{id}")
-    public ServiceEntity getById(@PathVariable Long id) {
+    public ServiceDTO getById(@PathVariable Long id) {
         return service.getById(id);
     }
 

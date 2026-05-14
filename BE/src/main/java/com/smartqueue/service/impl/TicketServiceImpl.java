@@ -1,10 +1,13 @@
 package com.smartqueue.service.impl;
 
 import com.smartqueue.config.WebSocketConfig;
+import com.smartqueue.dto.TicketResponseDTO;
 import com.smartqueue.entity.*;
 import com.smartqueue.entity.enums.TicketStatus;
+import com.smartqueue.exception.ResourceNotFoundException;
 import com.smartqueue.repository.*;
 import com.smartqueue.service.TicketService;
+import com.smartqueue.util.TicketGenerator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
@@ -26,16 +29,16 @@ public class TicketServiceImpl implements TicketService {
     private final SimpMessagingTemplate messagingTemplate;
 
     @Override
-    public Ticket createTicket(Long userId, Long serviceId) {
+    public TicketResponseDTO createTicket(Long userId, Long serviceId) {
 
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
         ServiceEntity service = serviceRepository.findById(serviceId)
-                .orElseThrow(() -> new RuntimeException("Service not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Service not found"));
 
         Ticket ticket = Ticket.builder()
-                .number("T-" + System.currentTimeMillis())
+                .number(TicketGenerator.nextNumber())
                 .status(TicketStatus.WAITING)
                 .createdAt(LocalDateTime.now())
                 .user(user)
@@ -44,20 +47,22 @@ public class TicketServiceImpl implements TicketService {
 
         Ticket saved = ticketRepository.save(ticket);
         broadcast(saved);
-        return saved;
+        return TicketResponseDTO.fromEntity(saved);
     }
 
     @Override
-    public List<Ticket> getAllTickets() {
-        return ticketRepository.findAll();
+    public List<TicketResponseDTO> getAllTickets() {
+        return ticketRepository.findAll().stream()
+                .map(TicketResponseDTO::fromEntity)
+                .toList();
     }
 
     @Override
-    public Ticket callNextTicket() {
+    public TicketResponseDTO callNextTicket() {
 
         Ticket ticket = ticketRepository
                 .findFirstByStatusOrderByCreatedAtAsc(TicketStatus.WAITING)
-                .orElseThrow(() -> new RuntimeException("No ticket found"));
+                .orElseThrow(() -> new ResourceNotFoundException("No waiting ticket"));
 
         ticket.setStatus(TicketStatus.CALLED);
 
@@ -65,21 +70,21 @@ public class TicketServiceImpl implements TicketService {
 
         Ticket saved = ticketRepository.save(ticket);
         broadcast(saved);
-        return saved;
+        return TicketResponseDTO.fromEntity(saved);
     }
 
     @Override
-    public Ticket completeTicket(Long ticketId) {
+    public TicketResponseDTO completeTicket(Long ticketId) {
 
         Ticket ticket = ticketRepository.findById(ticketId)
-                .orElseThrow(() -> new RuntimeException("Ticket not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Ticket not found"));
 
         ticket.setStatus(TicketStatus.COMPLETED);
         ticket.setCompletedAt(LocalDateTime.now());
 
         Ticket saved = ticketRepository.save(ticket);
         broadcast(saved);
-        return saved;
+        return TicketResponseDTO.fromEntity(saved);
     }
 
     private void broadcast(Ticket ticket) {

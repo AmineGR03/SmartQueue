@@ -1,14 +1,14 @@
 package com.smartqueue.service;
 
-import com.smartqueue.entity.User;
+import com.smartqueue.dto.UserDTO;
 
 import java.util.List;
 
 public interface UserService {
 
-    List<User> getAllUsers();
+    List<UserDTO> getAllUsers();
 
-    User getUserById(Long id);
+    UserDTO getUserById(Long id);
 
     void deleteUser(Long id);
 }

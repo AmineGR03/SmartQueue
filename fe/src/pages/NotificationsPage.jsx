@@ -71,6 +71,7 @@ export default function NotificationsPage() {
             {items.map((n) => (
               <li key={n.id} className={`notif notif-${n.type}`}>
                 <strong>{n.type}</strong>
+                {n.read === false && <span className="badge badge-sm">non lu</span>}
                 <span>{n.message}</span>
                 <small>{n.createdAt ? new Date(n.createdAt).toLocaleString() : ''}</small>
               </li>

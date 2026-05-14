@@ -1,7 +1,8 @@
 package com.smartqueue.controller;
 
-import com.smartqueue.entity.Appointment;
+import com.smartqueue.dto.AppointmentDTO;
 import com.smartqueue.service.AppointmentService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,12 +16,12 @@ public class AppointmentController {
     private final AppointmentService service;
 
     @PostMapping
-    public Appointment create(@RequestBody Appointment a) {
-        return service.create(a);
+    public AppointmentDTO create(@RequestBody @Valid AppointmentDTO dto) {
+        return service.create(dto);
     }
 
     @GetMapping
-    public List<Appointment> getAll() {
+    public List<AppointmentDTO> getAll() {
         return service.getAll();
     }
 

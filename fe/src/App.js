@@ -80,6 +80,7 @@ export default function App() {
                   <AdminPage />
                 </ProtectedRoute>
               }
+            />
             <Route
               path="/users"
               element={
@@ -87,7 +88,6 @@ export default function App() {
                   <UsersPage />
                 </ProtectedRoute>
               }
-            />
             />
 
             <Route path="*" element={<Navigate to="/" replace />} />

@@ -1,7 +1,7 @@
 package com.smartqueue.controller;
 
+import com.smartqueue.dto.UserDTO;
 import com.smartqueue.dto.auth.*;
-import com.smartqueue.entity.User;
 import com.smartqueue.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +27,7 @@ public class AuthController {
     }
 
     @GetMapping("/me")
-    public ResponseEntity<User> me(@AuthenticationPrincipal UserDetails userDetails) {
+    public ResponseEntity<UserDTO> me(@AuthenticationPrincipal UserDetails userDetails) {
         if (userDetails == null) {
             return ResponseEntity.status(401).build();
         }
