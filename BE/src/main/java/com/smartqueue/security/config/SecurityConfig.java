@@ -37,6 +37,9 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/api/services")
                         .permitAll()
 
+                        .requestMatchers(HttpMethod.GET, "/api/tickets/public")
+                        .permitAll()
+
                         .requestMatchers(
                                 "/swagger-ui.html",
                                 "/swagger-ui/**",
@@ -72,6 +75,9 @@ public class SecurityConfig {
 
                         .requestMatchers(HttpMethod.POST, "/api/tickets/anonymous")
                         .permitAll()
+
+                        .requestMatchers(HttpMethod.PUT, "/api/users/**")
+                        .authenticated()
 
                         .anyRequest()
                         .authenticated()

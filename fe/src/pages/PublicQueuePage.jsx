@@ -13,7 +13,7 @@ export default function PublicQueuePage() {
 
   const refreshTickets = useCallback(async () => {
     try {
-      const list = await ticketService.getTickets();
+      const list = await ticketService.getPublicTickets();
       setTickets(list);
     } catch (e) {
       console.error('Failed to refresh tickets:', e);
@@ -23,11 +23,8 @@ export default function PublicQueuePage() {
   const initialLoad = useCallback(async () => {
     try {
       setLoading(true);
-      const [list, svcs] = await Promise.all([
-        ticketService.getTickets(),
-        serviceService.getServices(),
-      ]);
-      setTickets(list);
+      // Load services independently (permitAll)
+      const svcs = await serviceService.getServices();
       const activeSvcs = svcs.filter((s) => s.active);
       setServices(activeSvcs);
       setServiceId((prev) => {
@@ -35,7 +32,7 @@ export default function PublicQueuePage() {
         return activeSvcs[0] ? String(activeSvcs[0].id) : '';
       });
     } catch (e) {
-      setErr(e.message);
+      setErr(e.message || 'Failed to load services');
     } finally {
       setLoading(false);
     }

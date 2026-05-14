@@ -15,6 +15,15 @@ export async function getTickets() {
 }
 
 /**
+ * Get all tickets (public endpoint - no authentication required)
+ * @returns {Promise<Array>} List of all tickets
+ */
+export async function getPublicTickets() {
+  const { data } = await api.get('/api/tickets/public');
+  return data;
+}
+
+/**
  * Get ticket by ID (if endpoint is available)
  * @param {number} id - Ticket ID
  * @returns {Promise<Object>} Ticket object

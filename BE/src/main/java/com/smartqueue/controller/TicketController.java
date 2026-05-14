@@ -54,6 +54,11 @@ public class TicketController {
         return ResponseEntity.ok(ticketService.getAllTickets());
     }
 
+    @GetMapping("/public")
+    public ResponseEntity<List<TicketResponseDTO>> getAllPublic() {
+        return ResponseEntity.ok(ticketService.getAllTickets());
+    }
+
     @PutMapping("/call-next")
     public ResponseEntity<TicketResponseDTO> callNext() {
         return ResponseEntity.ok(ticketService.callNextTicket());

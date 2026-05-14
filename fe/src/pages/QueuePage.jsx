@@ -19,16 +19,25 @@ export default function QueuePage() {
   }, []);
 
   const initialLoad = useCallback(async () => {
-    const [list, svcs] = await Promise.all([
-      ticketService.getTickets(),
-      serviceService.getServices(),
-    ]);
-    setTickets(list);
-    setServices(svcs);
-    setServiceId((prev) => {
-      if (prev) return prev;
-      return svcs[0] ? String(svcs[0].id) : '';
-    });
+    try {
+      // Load services independently - this should always work (permitAll)
+      const svcs = await serviceService.getServices();
+      setServices(svcs);
+      setServiceId((prev) => {
+        if (prev) return prev;
+        return svcs[0] ? String(svcs[0].id) : '';
+      });
+    } catch (e) {
+      setErr(e.message || 'Failed to load services');
+    }
+
+    try {
+      // Load tickets - requires authentication
+      const list = await ticketService.getTickets();
+      setTickets(list);
+    } catch (e) {
+      setErr(e.response?.data?.message || e.message || 'Failed to load tickets');
+    }
   }, []);
 
   useEffect(() => {

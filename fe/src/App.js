@@ -9,6 +9,7 @@ import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import DashboardPage from './pages/DashboardPage';
 import QueuePage from './pages/QueuePage';
+import ProfilePage from './pages/ProfilePage';
 import AgentPage from './pages/AgentPage';
 import ServicesPage from './pages/ServicesPage';
 import AppointmentsPage from './pages/AppointmentsPage';
@@ -40,6 +41,14 @@ export default function App() {
               element={
                 <ProtectedRoute>
                   <QueuePage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/profile"
+              element={
+                <ProtectedRoute>
+                  <ProfilePage />
                 </ProtectedRoute>
               }
             />
