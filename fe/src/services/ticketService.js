@@ -44,6 +44,18 @@ export async function createTicket(userId, serviceId) {
 }
 
 /**
+ * Create an anonymous ticket (no authentication required)
+ * @param {number} serviceId - Service ID
+ * @returns {Promise<Object>} Created ticket
+ */
+export async function createAnonymousTicket(serviceId) {
+  const { data } = await api.post('/api/tickets/anonymous', null, {
+    params: { serviceId },
+  });
+  return data;
+}
+
+/**
  * Call next ticket in queue (agent/admin only)
  * @returns {Promise<Object>} Called ticket
  */

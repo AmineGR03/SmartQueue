@@ -16,7 +16,7 @@ export const publicRoutes = [
 export const protectedRoutes = [
   { path: '/dashboard', label: 'Tableau de bord', roles: [] },
   { path: '/queue', label: 'File d\'attente', roles: [] },
-  { path: '/appointments', label: 'Rendez-vous', roles: [] },
+  { path: '/appointments', label: 'Rendez-vous', roles: ['USER', 'ADMIN'] },
   { path: '/notifications', label: 'Notifications', roles: [] },
   { path: '/services', label: 'Services', roles: [] },
 ];

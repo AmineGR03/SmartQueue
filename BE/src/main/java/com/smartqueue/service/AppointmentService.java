@@ -8,7 +8,9 @@ public interface AppointmentService {
 
     AppointmentDTO create(AppointmentDTO dto);
 
-    List<AppointmentDTO> getAll();
+    List<AppointmentDTO> listForCurrentUser();
 
     void cancel(Long id);
+
+    AppointmentDTO confirm(Long id);
 }

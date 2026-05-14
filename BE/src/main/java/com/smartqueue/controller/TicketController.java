@@ -43,6 +43,12 @@ public class TicketController {
         );
     }
 
+    @PostMapping("/anonymous")
+    public ResponseEntity<TicketResponseDTO> createAnonymous(
+            @RequestParam Long serviceId) {
+        return ResponseEntity.ok(ticketService.createAnonymousTicket(serviceId));
+    }
+
     @GetMapping
     public ResponseEntity<List<TicketResponseDTO>> getAll() {
         return ResponseEntity.ok(ticketService.getAllTickets());

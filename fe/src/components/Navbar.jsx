@@ -19,13 +19,20 @@ export default function Navbar() {
           <>
             <NavLink to="/dashboard">Tableau de bord</NavLink>
             <NavLink to="/queue">File d&apos;attente</NavLink>
-            <NavLink to="/appointments">Rendez-vous</NavLink>
+            {(role === 'USER' || role === 'ADMIN') && (
+              <NavLink to="/appointments">Rendez-vous</NavLink>
+            )}
             <NavLink to="/notifications">Notifications</NavLink>
             {(role === 'ADMIN' || role === 'AGENT') && (
               <NavLink to="/agent">Guichet</NavLink>
             )}
             <NavLink to="/services">Services</NavLink>
-            {role === 'ADMIN' && <NavLink to="/admin">Admin</NavLink>}
+            {role === 'ADMIN' && (
+              <>
+                <NavLink to="/users">Usagers</NavLink>
+                <NavLink to="/admin">Admin</NavLink>
+              </>
+            )}
           </>
         )}
       </nav>

@@ -6,6 +6,7 @@ import { useTicketSocket } from '../hooks/useTicketSocket';
 
 export default function QueuePage() {
   const { user } = useAuth();
+  const role = user?.role?.name;
   const [services, setServices] = useState([]);
   const [serviceId, setServiceId] = useState('');
   const [tickets, setTickets] = useState([]);
@@ -57,8 +58,15 @@ export default function QueuePage() {
     <div className="page">
       <h1>File d&apos;attente</h1>
       <p className="muted">
-        Mises à jour en temps réel via WebSocket (sujet <code>/topic/tickets</code>).
+        Tous les rôles (usager, agent, administrateur) peuvent prendre un ticket et rejoindre la file pour un service.
+        Mises à jour en temps réel via WebSocket (<code>/topic/tickets</code>).
       </p>
+      {role && role !== 'USER' && (
+        <p className="muted">
+          Compte <strong>{role}</strong> : vous voyez ci-dessous vos propres tickets ; le guichet agent liste tous les
+          tickets pour appeler / terminer.
+        </p>
+      )}
 
       <form className="card form-grid" onSubmit={takeTicket}>
         <h3>Nouveau ticket</h3>

@@ -21,8 +21,13 @@ public class AppointmentController {
     }
 
     @GetMapping
-    public List<AppointmentDTO> getAll() {
-        return service.getAll();
+    public List<AppointmentDTO> list() {
+        return service.listForCurrentUser();
+    }
+
+    @PutMapping("/{id}/confirm")
+    public AppointmentDTO confirm(@PathVariable Long id) {
+        return service.confirm(id);
     }
 
     @DeleteMapping("/{id}")

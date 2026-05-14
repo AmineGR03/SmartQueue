@@ -25,6 +25,7 @@ public class Notification {
     private String message;
 
     @Builder.Default
+    @Column(name = "is_read")
     private Boolean read = false;
 
     @Enumerated(EnumType.STRING)

@@ -51,6 +51,24 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
+    public TicketResponseDTO createAnonymousTicket(Long serviceId) {
+        ServiceEntity service = serviceRepository.findById(serviceId)
+                .orElseThrow(() -> new ResourceNotFoundException("Service not found"));
+
+        Ticket ticket = Ticket.builder()
+                .number(TicketGenerator.nextNumber())
+                .status(TicketStatus.WAITING)
+                .createdAt(LocalDateTime.now())
+                .user(null)
+                .service(service)
+                .build();
+
+        Ticket saved = ticketRepository.save(ticket);
+        broadcast(saved);
+        return TicketResponseDTO.fromEntity(saved);
+    }
+
+    @Override
     public List<TicketResponseDTO> getAllTickets() {
         return ticketRepository.findAll().stream()
                 .map(TicketResponseDTO::fromEntity)

@@ -4,6 +4,7 @@ import { AuthProvider } from './context/AuthContext';
 import Layout from './components/Layout';
 import ProtectedRoute from './components/ProtectedRoute';
 import HomePage from './pages/HomePage';
+import PublicQueuePage from './pages/PublicQueuePage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import DashboardPage from './pages/DashboardPage';
@@ -22,6 +23,7 @@ export default function App() {
         <Routes>
           <Route element={<Layout />}>
             <Route path="/" element={<HomePage />} />
+            <Route path="/public-queue" element={<PublicQueuePage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
 
@@ -60,7 +62,7 @@ export default function App() {
             <Route
               path="/appointments"
               element={
-                <ProtectedRoute>
+                <ProtectedRoute roles={['USER', 'ADMIN']}>
                   <AppointmentsPage />
                 </ProtectedRoute>
               }

@@ -53,6 +53,12 @@ export default function ServicesPage() {
   return (
     <div className="page">
       <h1>Services</h1>
+      {!admin && (
+        <p className="muted">
+          Consultation uniquement. Seuls les administrateurs peuvent ajouter ou supprimer des services. Les agents ne
+          modifient pas les services.
+        </p>
+      )}
       {admin && (
         <form className="card form-grid" onSubmit={onCreate}>
           <h3>Nouveau service</h3>
