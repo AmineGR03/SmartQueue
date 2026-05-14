@@ -34,6 +34,9 @@ public class SecurityConfig {
                                 "/api/auth/login"
                         ).permitAll()
 
+                        .requestMatchers(HttpMethod.GET, "/api/services")
+                        .permitAll()
+
                         .requestMatchers(
                                 "/swagger-ui.html",
                                 "/swagger-ui/**",
@@ -66,6 +69,9 @@ public class SecurityConfig {
 
                         .requestMatchers(HttpMethod.PUT, "/api/tickets/complete/**")
                         .hasAnyRole("ADMIN", "AGENT")
+
+                        .requestMatchers(HttpMethod.POST, "/api/tickets/anonymous")
+                        .permitAll()
 
                         .anyRequest()
                         .authenticated()
